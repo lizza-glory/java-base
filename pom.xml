@@ -12,6 +12,7 @@
 
     <modules>
         <module>google-guava</module>
+        <module>stream-api</module>
     </modules>
 
     <dependencyManagement>
