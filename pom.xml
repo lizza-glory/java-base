@@ -13,6 +13,12 @@
     <modules>
         <module>google-guava</module>
         <module>stream-api</module>
+        <module>java-basic</module>
+        <module>java-concurrency</module>
+        <module>java-container</module>
+        <module>java-exception</module>
+        <module>java-io</module>
+        <module>rx-java</module>
     </modules>
 
     <dependencyManagement>
