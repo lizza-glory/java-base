@@ -19,6 +19,8 @@
         <module>java-exception</module>
         <module>java-io</module>
         <module>rx-java</module>
+        <module>log-4j</module>
+        <module>project-reactor</module>
     </modules>
 
     <dependencyManagement>
