@@ -2,11 +2,13 @@ package com.lizza.Time;
 
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.logging.SimpleFormatter;
 import java.util.stream.Stream;
 
 /**
@@ -49,20 +51,22 @@ public class UniversalTimeTests {
 
     @Test
     public void test4() throws Exception {
-        // 获取当前时间
-        ZonedDateTime now = ZonedDateTime.now();
+        Date date1 = new Date();
+        Date date2 = transferDateByZone(date1, -8);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(format.format(date2));
+    }
 
-        // 指定西五区的时区
-        ZoneId westZoneId = ZoneId.ofOffset("UTC", ZoneOffset.ofHours(-5));
-
-        // 将当前时间转换为西五区的时间
-        ZonedDateTime westNow = now.withZoneSameInstant(westZoneId);
-
-        // 格式化西五区的时间
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = westNow.format(formatter);
-
-        System.out.println("西五区的时间: " + formattedDateTime);
-
+    /**
+     * 根据指定时区 & 时间获取转换后的时间
+     * @param date          原始时间
+     * @param hours         时区
+     * @return              转换后的时间
+     * @throws Exception    异常
+     */
+    public static Date transferDateByZone(Date date, int hours) throws Exception{
+        ZoneId zoneId = ZoneId.ofOffset("UTC", ZoneOffset.ofHours(hours));
+        ZonedDateTime zonedDateTime = date.toInstant().atZone(zoneId);
+        return Date.from(zonedDateTime.toLocalDateTime().atZone(ZoneId.systemDefault()).toInstant());
     }
 }
