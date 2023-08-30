@@ -29,6 +29,19 @@ public class ReferenceDeliver {
         System.out.println("after, id: " + id + ", count: " + count);
     }
 
+    @Test
+    public void test3() throws Exception {
+        int index = 0, count = 5;
+        while (count-- > 0) {
+            changeIndex(index);
+        }
+        System.out.println(index);
+    }
+    
+    public void changeIndex(int index) {
+        index++;
+    }
+
     public void change(int id, Integer count) {
         id = 2;
         count = 200;

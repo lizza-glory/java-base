@@ -3,6 +3,8 @@ package com.lizza.Set;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class SetTests {
@@ -29,5 +31,13 @@ public class SetTests {
         Set<Integer> set2 = Sets.newHashSet(2, 3);
         Set<Integer> difference = Sets.newHashSet(Sets.difference(set1, set2));
         System.out.println(set1);
+    }
+
+    @Test
+    public void test4() throws Exception {
+        Set<Integer> set1 = Sets.newHashSet(2, 3, 4);
+        Set<Integer> set2 = Sets.newHashSet(4, 3, 2);
+        System.out.println(set1.equals(set2));
+        System.out.println(Objects.equals(set1, set2));
     }
 }

@@ -57,16 +57,42 @@ public class UniversalTimeTests {
         System.out.println(format.format(date2));
     }
 
+    @Test
+    public void test5() throws Exception {
+        TimeZone timeZone1 = TimeZone.getTimeZone("G+08:00");
+        TimeZone timeZone2 = TimeZone.getTimeZone("GMT+08:00");
+        System.out.println(timeZone1.getID());
+        System.out.println(timeZone2.getID());
+    }
+
+    @Test
+    public void test6() throws Exception {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // 获取美国时间
+        Date dateUS = getDateByZone(new Date(), "America/Chicago");
+        System.out.println("美国时间: " + format.format(dateUS));
+
+        // 将美国时间换为中国时间
+        Date dateCH = getDateByZone(new Date(), "Asia/Shanghai");
+        System.out.println("北京时间: " + format.format(dateCH));
+    }
+
     /**
      * 根据指定时区 & 时间获取转换后的时间
      * @param date          原始时间
      * @param hours         时区
      * @return              转换后的时间
-     * @throws Exception    异常
+     * @throws Exception    异常G+08:00
      */
     public static Date transferDateByZone(Date date, int hours) throws Exception{
         ZoneId zoneId = ZoneId.ofOffset("UTC", ZoneOffset.ofHours(hours));
         ZonedDateTime zonedDateTime = date.toInstant().atZone(zoneId);
+        return Date.from(zonedDateTime.toLocalDateTime().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static Date getDateByZone(Date date, String zoneId) {
+        ZonedDateTime zonedDateTime = date.toInstant().atZone(ZoneId.of(zoneId));
         return Date.from(zonedDateTime.toLocalDateTime().atZone(ZoneId.systemDefault()).toInstant());
     }
 }
