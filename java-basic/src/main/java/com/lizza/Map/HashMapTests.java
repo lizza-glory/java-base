@@ -5,7 +5,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.junit.Test;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -69,5 +71,17 @@ public class HashMapTests {
         System.out.println(list);
         Map<Integer, String> map = list.stream().collect(Collectors.toMap(User::getId, User::getInfo, (o, n) -> n));
         System.out.println(map);
+    }
+
+    @Test
+    public void test5() throws Exception {
+        Map<Integer, Integer> map = Maps.newHashMap();
+        map.put(1, 1);
+        map.put(2, 2);
+        map.put(3, 3);
+        map.computeIfPresent(2, (k, v) -> {
+            System.out.println(v);
+            return v;
+        });
     }
 }
