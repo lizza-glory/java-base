@@ -27,4 +27,14 @@ public class FlatMapTests {
                 .collect(Collectors.toList());
         System.out.println(collect);
     }
+
+    @Test
+    public void test2() throws Exception {
+        System.out.println("{\"newUserId\":2060132192,\"oldUserId\":2000000000,\"signUpEmail\":\"ghx882@yopmail.com\"}");
+    }
+
+    @Test
+    public void test3() throws Exception {
+        System.out.println(2000087847 % 128);
+    }
 }

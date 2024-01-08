@@ -1,9 +1,11 @@
 package com.lizza.CompletableFuture;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.lizza.Util.Logger;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -54,7 +56,7 @@ public class SupplyAndRunAsyncTests {
     }
     
     @Test
-    public void test10() {
+    public void test3() {
         List<CompletableFuture<Integer>> futureList = Lists.newArrayList();
         for (int i = 0; i < 5; i++) {
             int result = i;
@@ -82,7 +84,7 @@ public class SupplyAndRunAsyncTests {
     }
 
     @Test
-    public void test20() throws Exception {
+    public void test4() throws Exception {
         List<CompletableFuture<Integer>> futureList = Lists.newArrayList();
         for (int i = 0; i < 15; i++) {
             int num = i;
@@ -105,5 +107,72 @@ public class SupplyAndRunAsyncTests {
             System.out.println(future.get(500, TimeUnit.MILLISECONDS));
         }
         System.out.println();
+    }
+
+    /**
+     * 看一下多个 future for 循环, 调用 get 方法是否会变串行
+     */
+    @Test
+    public void test5() throws Exception {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        List<CompletableFuture<Integer>> futures = Lists.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            int num = i;
+            futures.add(CompletableFuture.supplyAsync(() -> action(num)));
+        }
+        for (CompletableFuture<Integer> future : futures) {
+            Integer i = future.get(1010, TimeUnit.MILLISECONDS);
+            System.out.println(">>> result: " + i);
+        }
+        System.out.println(">>> cost: " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
+
+    /**
+     * 看一下多个 future for 循环, 调用 get 方法是否会变串行
+     * allOf 版本
+     */
+    @Test
+    public void test6() throws Exception {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        List<CompletableFuture<Integer>> futures = Lists.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            int num = i;
+            futures.add(CompletableFuture.supplyAsync(() -> action(num)));
+        }
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+        for (CompletableFuture<Integer> future : futures) {
+            Integer i = future.get(1010, TimeUnit.MILLISECONDS);
+            System.out.println(">>> result: " + i);
+        }
+        System.out.println(">>> cost: " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
+
+    /**
+     * 看一下多个 future for 循环, 调用 get 方法是否会变串行
+     * allOf + join 版本
+     */
+    @Test
+    public void test7() throws Exception {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        List<CompletableFuture<Integer>> futures = Lists.newArrayList();
+        for (int i = 0; i < 10; i++) {
+            int num = i;
+            futures.add(CompletableFuture.supplyAsync(() -> action(num)));
+        }
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        for (CompletableFuture<Integer> future : futures) {
+            Integer i = future.get();
+            System.out.println(">>> result: " + i);
+        }
+        System.out.println(">>> cost: " + stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
+
+    public static int action(int i) {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return i;
     }
 }
