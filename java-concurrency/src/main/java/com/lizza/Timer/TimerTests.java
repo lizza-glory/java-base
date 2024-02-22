@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 时间轮: Timer 实现
@@ -55,5 +56,23 @@ public class TimerTests {
             }
         }, 1000L, 1000L);
         Thread.currentThread().join();
+    }
+
+    // 程序启动后, 立即开始执行周期性任务, 1 秒执行一次
+    @Test
+    public void test4() throws Exception {
+        System.out.println("time: " + LocalTime.now());
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("time: " + LocalTime.now() + ", run task.");
+            }
+        }, 0L, 1000L);
+        Thread.currentThread().join();
+    }
+
+    @Test
+    public void test5() throws Exception {
+        System.out.println(TimeUnit.MINUTES.toMillis(5));
     }
 }

@@ -22,4 +22,9 @@ public class Tests {
                 .addAll(Lists.newArrayList(4, 5, 6));
         System.out.println(map);
     }
+
+    @Test
+    public void test2() throws Exception {
+        System.out.println(2060288325 % 128);
+    }
 }
