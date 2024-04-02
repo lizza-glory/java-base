@@ -65,4 +65,8 @@ public class StringTests {
         System.out.println("商品货号已存在，请检查后重试,重复的ID[1186169];该货号已存在新品申请,重复的新品申请ID[51492]，重复上架".startsWith("["));
         System.out.println("[新品申请状态变更-商研审核不通过] 商品无法辨别".startsWith("["));
     }
+
+    @Test
+    public void test7() throws Exception {
+    }
 }
