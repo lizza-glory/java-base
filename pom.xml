@@ -22,6 +22,7 @@
         <module>log-4j</module>
         <module>project-reactor</module>
         <module>easy-excel</module>
+        <module>java-jvm</module>
     </modules>
 
     <dependencyManagement>
